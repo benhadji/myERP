@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
@@ -63,7 +64,7 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
                 null, null, new BigDecimal(52)));
 
         manager.addReference(vEcritureComptable);
-        assertEquals("BQ-2016/00052", vEcritureComptable.getReference());
+        assertEquals("BQ-2016/00057", vEcritureComptable.getReference());
 
     }
 
@@ -104,16 +105,62 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
                 null, null,
                 new BigDecimal(123)));
 
-  //      System.out.println("La reference est = "+vEcritureComptable.getReference());
-
 
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
+
+    @Test
+    public void insertEcritureComptable() throws FunctionalException{
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(currentDate);
+        vEcritureComptable.setLibelle("Libelle");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        refYear = sdf.format(vEcritureComptable.getDate());
+
+        vEcritureComptable.setReference(vEcritureComptable.getJournal().getCode()+"-" + refYear + "/00003");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(401),
+                null, new BigDecimal(123),
+                null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(411),
+                null, null,
+                new BigDecimal(123)));
+
+        manager.insertEcritureComptable(vEcritureComptable);
+        assertNotNull(vEcritureComptable.getId());
+
+    }
+
+    @Test
+    public void updateEcritureComptable() throws FunctionalException {
+
+        List<EcritureComptable> list =
+                getBusinessProxy().getComptabiliteManager().getListEcritureComptable();
+        for (EcritureComptable vEC : list){
+            if (vEC.getId() == -4){
+                vEC.setLibelle("test");
+                getBusinessProxy().getComptabiliteManager().updateEcritureComptable(vEC);
+                assertEquals("test", vEC.getLibelle());
+            }
+        }
+
+    }
+
+    @Test
+    public void deleteEcritureComptable(){
+        try{
+            getBusinessProxy().getComptabiliteManager().deleteEcritureComptable(6);
+        }catch (Exception e){
+            fail("La suppression de l'ecriture comptable 6 a echoué");
+        }
+    }
+
 
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitViolation() throws Exception {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
+
 
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG2() throws Exception {
@@ -142,5 +189,7 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
                                                                                  null));
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
+
+
 
 }
