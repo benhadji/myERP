@@ -66,28 +66,36 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 
     @Test
     public void insertSequenceEcritureComptable(){
-        SequenceEcritureComptable vSeq = new SequenceEcritureComptable();
-        vSeq.setAnnee(2018);
-        vSeq.setDerniereValeur(77);
-        getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(vSeq, "OD");
+        try{
+            SequenceEcritureComptable vSeq = new SequenceEcritureComptable();
+            vSeq.setAnnee(2018);
+            vSeq.setDerniereValeur(102);
+            getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(vSeq, "BQ");
+        }catch(Exception e){
+            fail("L'insertion de la sequence comptable a echoué");
+        }
+
+
     }
 
     @Test
     public void updateSequnceEcritureComptable(){
-        //On recupere une seq existante
-        SequenceEcritureComptable vSeq = getDaoProxy().getComptabiliteDao().getLastSeqOfTheYear(2016, "OD");
-        //On set d'autre valeur aux champs de ce vSeq
-        vSeq.setAnnee(vSeq.getAnnee()+2);
-        vSeq.setDerniereValeur(vSeq.getDerniereValeur()+2);
-        //on appelle la methode update, et on lui passe en param l'objet SequenceEcritureComptable etnle code journal
-        getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(vSeq, "OD");
+        try{
+            SequenceEcritureComptable vSeq = getDaoProxy().getComptabiliteDao().getLastSeqOfTheYear(2016, "OD");
+            vSeq.setAnnee(vSeq.getAnnee()+2);
+            vSeq.setDerniereValeur(vSeq.getDerniereValeur()+2);
+            getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(vSeq, "OD");
+        }catch (Exception e){
+            fail("La mise a jour de la sequence comptable a echoué");
+        }
+
 
     }
 
     // ==================== ListLigneEcriture - LOAD ====================
     @Test
     public void loadListLignEcriture(){
-        vEC.setId(-1);
+        vEC.setId(-2);
         getDaoProxy().getComptabiliteDao().loadListLigneEcriture(vEC);
         assertEquals(3, vEC.getListLigneEcriture().size());
     }
@@ -98,7 +106,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
     @Test
     public void getListEcritureComptable(){
         List<EcritureComptable> list = getDaoProxy().getComptabiliteDao().getListEcritureComptable();
-        assertEquals(4, list.size());
+        assertEquals(7, list.size());
     }
 
     @Test
@@ -151,24 +159,29 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
                 new BigDecimal(10)));
 
         getDaoProxy().getComptabiliteDao().insertEcritureComptable(vEC);
+        assertNotNull(vEC.getId());
 
     }
 
     @Test
-    public void updateEcritureComptable(){
-        try {
-            vEC = getDaoProxy().getComptabiliteDao().getEcritureComptable(-5);
-            vEC.setLibelle("Paiement facture C Discount");
-            getDaoProxy().getComptabiliteDao().updateEcritureComptable(vEC);
-        }catch (NotFoundException nfe){
-            nfe.printStackTrace();
-        }
+    public void updateEcritureComptable() throws NotFoundException{
+
+        vEC = getDaoProxy().getComptabiliteDao().getEcritureComptable(-4);
+        vEC.setLibelle("Paiement facture C Discount");
+        getDaoProxy().getComptabiliteDao().updateEcritureComptable(vEC);
+        assertEquals("Paiement facture C Discount", vEC.getLibelle());
 
     }
 
     @Test
     public void deleteEcritureComptable(){
-        getDaoProxy().getComptabiliteDao().deleteEcritureComptable(-5);
+
+        try {
+            getDaoProxy().getComptabiliteDao().deleteEcritureComptable(5);
+        }catch (Exception e){
+            fail("LA suppression de l'ecriture comptable a echoué");
+
+        }
 
     }
 
