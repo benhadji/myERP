@@ -3,9 +3,9 @@ package com.dummy.myerp.consumer.impl.dao;
 
 import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.NotFoundException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 import java.math.BigDecimal;
@@ -13,7 +13,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class ComptabiliteDaoImplTest extends ConsumerTestCase {
 
@@ -22,12 +24,12 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
     private static String refYear;
     private static EcritureComptable vEC;
 
-    @BeforeClass
+    @BeforeAll
     public static void initialization(){
         currentDate = new Date();
     }
 
-    @Before
+    @BeforeEach
     public void init(){
         vEC = new EcritureComptable();
     }
@@ -121,8 +123,8 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
             assertEquals(ecritureDate, vEC.getDate());
             assertEquals("TMA Appli Xxx", vEC.getLibelle());
 
-        }catch(ParseException | NotFoundException nfe){
-            nfe.printStackTrace();
+        }catch(Exception nfe){
+            fail("Not found in DB");
         }
 
     }
@@ -132,9 +134,9 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
         try {
             vEC = getDaoProxy().getComptabiliteDao().getEcritureComptableByRef("VE-2016/00004");
             assertEquals(-4, (int) vEC.getId());
-
-        }catch (NotFoundException nfe){
-            nfe.printStackTrace();
+            assertEquals("VE", vEC.getJournal().getCode());
+        }catch (Exception nfe){
+            fail("Not found in DB with this reference");
 
         }
     }
