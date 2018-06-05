@@ -7,9 +7,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 
@@ -49,7 +47,8 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "301"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
-        assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
+        assertTrue(vEcriture.isEquilibree(), vEcriture.toString());
+
 
         vEcriture.getListLigneEcriture().clear();
         vEcriture.setLibelle("Non équilibrée");
