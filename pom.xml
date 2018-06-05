@@ -307,7 +307,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.6.201602180812</version>
+                <version>0.8.0</version>
                 <configuration>
                     <destFile>${sonar.jacoco.reportPath}</destFile>
                     <append>true</append>
@@ -329,6 +329,13 @@
         <!-- =============================================================== -->
         <pluginManagement>
             <plugins>
+
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.4.0.905</version>
+                </plugin>
+
                 <!-- ===== Java compilation ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
