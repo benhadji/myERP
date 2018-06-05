@@ -9,12 +9,13 @@ import java.util.List;
 
 
 import com.dummy.myerp.business.contrat.manager.ComptabiliteManager;
+import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.testbusiness.business.BusinessTestCase;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
-import com.dummy.myerp.technical.exception.FunctionalException;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -116,7 +117,12 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     }
 
     @Test
-    public void insertEcritureComptable() throws FunctionalException{
+    public void checkEcritureComptableContext() throws FunctionalException {
+
+    }
+
+    @Test
+    public void insertEcritureComptable() throws FunctionalException {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(currentDate);
         vEcritureComptable.setLibelle("Libelle");

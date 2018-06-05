@@ -3,23 +3,26 @@ package com.dummy.myerp.model.bean.comptabilite;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
+
 
 
 public class EcritureComptableTest {
 
     private static EcritureComptable vEcriture;
 
-    @Before
+    @BeforeEach
     public void init() {
         vEcriture = new EcritureComptable();
     }
 
-    @AfterClass
+    @AfterAll
     public static void setToNull(){
         vEcriture = null;
     }
@@ -54,7 +57,7 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "20", "1"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, null, "30"));
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
-        assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
+        assertFalse(vEcriture.isEquilibree(),vEcriture.toString() );
     }
 
     @Test

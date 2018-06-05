@@ -1,13 +1,15 @@
 package com.dummy.myerp.model.bean.comptabilite;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class CompteComptableTest {
 
@@ -15,14 +17,14 @@ public class CompteComptableTest {
     private static List<CompteComptable> vList;
 
 
-    @Before
+    @BeforeEach
     public void init(){
         vList = new ArrayList<>();
         vList.add(new CompteComptable(401, "Fournisseurs"));
         vList.add(new CompteComptable(706, "Prestations de services"));
     }
 
-    @AfterClass
+    @AfterAll
     public static void setToNull(){
         vList.clear();
     }
