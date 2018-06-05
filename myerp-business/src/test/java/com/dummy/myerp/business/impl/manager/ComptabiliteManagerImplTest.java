@@ -1,7 +1,6 @@
 package com.dummy.myerp.business.impl.manager;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -16,6 +15,13 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 
 public class ComptabiliteManagerImplTest extends BusinessTestCase {
@@ -26,19 +32,19 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     private static Date currentDate;
     private static String refYear;
 
-    @BeforeClass
+    @BeforeAll
     public static void initialization(){
         manager = new ComptabiliteManagerImpl();
         comptabiliteManager = getBusinessProxy().getComptabiliteManager();
         currentDate = new Date();
     }
 
-    @AfterClass
+    @AfterAll
     public static void assignToNull(){
         vEcritureComptable = null;
     }
 
-    @Before
+    @BeforeEach
     public void init() {
         vEcritureComptable = new EcritureComptable();
     }
@@ -156,38 +162,48 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     }
 
 
-    @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableUnitViolation() throws Exception {
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+    @Test
+    public void checkEcritureComptableUnitViolation() {
+
+        assertThrows(FunctionalException.class, ()->{
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        } );
+
     }
 
 
-    @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableUnitRG2() throws Exception {
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                                                                 null, new BigDecimal(123),
-                                                                                 null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                                                                                 null, null,
-                                                                                 new BigDecimal(1234)));
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+    @Test
+    public void checkEcritureComptableUnitRG2() {
+        assertThrows(FunctionalException.class,()->{
+            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+            vEcritureComptable.setDate(new Date());
+            vEcritureComptable.setLibelle("Libelle");
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    null, new BigDecimal(123),
+                    null));
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                    null, null,
+                    new BigDecimal(1234)));
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+                });
+
     }
 
-    @Test(expected = FunctionalException.class)
-    public void checkEcritureComptableUnitRG3() throws Exception {
-        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-        vEcritureComptable.setDate(new Date());
-        vEcritureComptable.setLibelle("Libelle");
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                                                                 null, new BigDecimal(123),
-                                                                                 null));
-        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                                                                 null, new BigDecimal(123),
-                                                                                 null));
-        manager.checkEcritureComptableUnit(vEcritureComptable);
+    @Test
+    public void checkEcritureComptableUnitRG3() {
+        assertThrows(FunctionalException.class, ()->{
+            vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+            vEcritureComptable.setDate(new Date());
+            vEcritureComptable.setLibelle("Libelle");
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    null, new BigDecimal(123),
+                    null));
+            vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                    null, new BigDecimal(123),
+                    null));
+            manager.checkEcritureComptableUnit(vEcritureComptable);
+        });
+
     }
 
 
