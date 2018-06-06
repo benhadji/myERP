@@ -70,7 +70,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
         try{
             SequenceEcritureComptable vSeq = new SequenceEcritureComptable();
             vSeq.setAnnee(2018);
-            vSeq.setDerniereValeur(102);
+            vSeq.setDerniereValeur(104);
             getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(vSeq, "BQ");
         }catch(Exception e){
             fail("L'insertion de la sequence comptable a echoué");
