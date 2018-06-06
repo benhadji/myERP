@@ -49,7 +49,6 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
 
 
     @Test
-    @Disabled
     public void addReference() throws Exception {
         vEcritureComptable.setId(-3);
         vEcritureComptable.setJournal(new JournalComptable("BQ", "Banque"));
@@ -69,7 +68,7 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
                 null, null, new BigDecimal(52)));
 
         manager.addReference(vEcritureComptable);
-        assertEquals("BQ-2016/00057", vEcritureComptable.getReference());
+        assertEquals("BQ-2016/00052", vEcritureComptable.getReference());
 
     }
 
@@ -120,7 +119,6 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     }
 
     @Test
-    @Disabled
     public void insertEcritureComptable() throws FunctionalException {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(currentDate);
