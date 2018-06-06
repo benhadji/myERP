@@ -271,9 +271,45 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.1.1</version>
+                <version>5.1.0</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.1.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <version>5.1.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>1.1.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>1.1.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.11.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>1.1.1</version>
+            <scope>test</scope>
+        </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -289,27 +325,12 @@
     <!-- Build -->
     <!-- =============================================================== -->
     <build>
-
-
         <plugins>
-            <!-- Below plugin ensures the execution of test cases during maven build-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>${runSuite}</include>
-                    </includes>
-                </configuration>
-            </plugin>
-
-            <!-- Sonar-JaCoCo integration plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.0</version>
                 <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <destFile>${sonar.jacoco.reportPaths}</destFile>
                     <append>true</append>
                 </configuration>
                 <executions>
@@ -321,21 +342,31 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+            </plugin>
         </plugins>
 
-
+        <!-- =============================================================== -->
+        <!-- pluginManagement -->
+        <!-- =============================================================== -->
         <!-- =============================================================== -->
         <!-- pluginManagement -->
         <!-- =============================================================== -->
         <pluginManagement>
             <plugins>
-
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.1</version>
+                </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>3.4.0.905</version>
                 </plugin>
-
                 <!-- ===== Java compilation ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -394,10 +425,9 @@
 
                 <!-- ===== Test / Reporting ===== -->
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <!-- latest version (2.20.1) does not work well with JUnit5 -->
                     <version>2.19.1</version>
-
                     <dependencies>
                         <dependency>
                             <groupId>org.junit.platform</groupId>
@@ -407,7 +437,12 @@
                         <dependency>
                             <groupId>org.junit.jupiter</groupId>
                             <artifactId>junit-jupiter-engine</artifactId>
-                            <version>5.1.1</version>
+                            <version>5.1.0</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.mockito</groupId>
+                            <artifactId>mockito-core</artifactId>
+                            <version>2.11.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -455,6 +490,48 @@
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>1.10</version>
                 </plugin>
+
+
+
+
+                <!--
+                                <plugin>
+                                    <groupId>org.sonarsource.scanner.maven</groupId>
+                                    <artifactId>sonar-maven-plugin</artifactId>
+                                    <version>3.4.0.905</version>
+                                </plugin>
+
+
+                                <plugin>
+                                    <groupId>org.jacoco</groupId>
+                                    <artifactId>jacoco-maven-plugin</artifactId>
+                                    <version>0.8.1</version>
+                                    <executions>
+                                        &lt;!&ndash; Unit-tests &ndash;&gt;
+                                        <execution>
+                                            <id>agent-for-ut</id>
+                                            <goals>
+                                                <goal>prepare-agent</goal>
+                                            </goals>
+                                            <configuration>
+                                                <append>true</append>
+                                                <destFile>${sonar.jacoco.reportPaths}</destFile>
+                                            </configuration>
+                                        </execution>
+                                        &lt;!&ndash; Integration-tests executed with failsafe-plugin &ndash;&gt;
+                                        <execution>
+                                            <id>agent-for-it</id>
+                                            <phase>package</phase>
+                                            <goals>
+                                                <goal>prepare-agent-integration</goal>
+                                            </goals>
+                                            <configuration>
+                                                <append>true</append>
+                                                <destFile>${sonar.jacoco.itReportPaths}</destFile>
+                                            </configuration>
+                                        </execution>
+                                    </executions>
+                                </plugin>-->
             </plugins>
         </pluginManagement>
     </build>
@@ -498,7 +575,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.19.1</version>
+                <version>2.20</version>
                 <configuration>
                     <linkXRef>false</linkXRef>
                 </configuration>

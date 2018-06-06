@@ -16,10 +16,7 @@ import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,6 +49,7 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
 
 
     @Test
+    @Disabled
     public void addReference() throws Exception {
         vEcritureComptable.setId(-3);
         vEcritureComptable.setJournal(new JournalComptable("BQ", "Banque"));
@@ -122,6 +120,7 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     }
 
     @Test
+    @Disabled
     public void insertEcritureComptable() throws FunctionalException {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
         vEcritureComptable.setDate(currentDate);
