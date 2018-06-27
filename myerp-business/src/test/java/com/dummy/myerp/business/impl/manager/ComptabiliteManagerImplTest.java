@@ -109,13 +109,13 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
                 null, null,
                 new BigDecimal(123)));
 
-
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
     @Test
     public void checkEcritureComptableContext() throws FunctionalException {
-
+        vEcritureComptable.setReference("VE-2016/00001");
+        manager.checkEcritureComptableContext(vEcritureComptable);
     }
 
     @Test
@@ -175,6 +175,9 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
     }
 
 
+    //RG_Compta_2	Pour qu'une écriture comptable soit valide, elle doit être équilibrée :
+    // la somme des montants au crédit des lignes d'écriture doit être égale à la somme des montants au débit.
+
     @Test
     public void checkEcritureComptableUnitRG2() {
         assertThrows(FunctionalException.class,()->{
@@ -192,6 +195,9 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
 
     }
 
+    //RG_Compta_3	Une écriture comptable doit contenir au moins deux lignes d'écriture :
+    // une au débit et une au crédit.
+
     @Test
     public void checkEcritureComptableUnitRG3() {
         assertThrows(FunctionalException.class, ()->{
@@ -207,6 +213,24 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
             manager.checkEcritureComptableUnit(vEcritureComptable);
         });
 
+    }
+
+
+
+    // RG_Compta_6	La référence d'une écriture comptable doit être unique,
+    // il n'est pas possible de créer plusieurs écritures ayant la même référence.
+
+    @Test
+    void checkEcritureComptableContextRG6() {
+        assertThrows(FunctionalException.class, () -> {
+            vEcritureComptable.setReference("VE-2016/00002");
+            manager.checkEcritureComptableContext(vEcritureComptable);
+        });
+        assertThrows(FunctionalException.class, () -> {
+            vEcritureComptable.setId(0);
+            vEcritureComptable.setReference("VE-2016/00002");
+            manager.checkEcritureComptableContext(vEcritureComptable);
+        });
     }
 
 
