@@ -107,7 +107,7 @@ public class ComptabiliteDaoImplTest extends ConsumerTestCase {
     @Test
     public void getListEcritureComptable(){
         List<EcritureComptable> list = getDaoProxy().getComptabiliteDao().getListEcritureComptable();
-        assertEquals(7, list.size());
+        assertEquals(5, list.size());
     }
 
     @Test
