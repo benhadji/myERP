@@ -75,7 +75,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                         1. Utiliser la dernière valeur + 1*/
         int recordNb;
         if(vSEC == null)
-            recordNb =1;
+            recordNb = 1;
         else
             recordNb = vSEC.getDerniereValeur()+1;
 
@@ -109,7 +109,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         }finally {
             getTransactionManager().rollbackMyERP(vTS);
         }
-
 
     }
 

@@ -91,6 +91,7 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
         manager.checkEcritureComptable(vEcritureComptable);
     }
 
+    // Comentaire
 
     @Test
     public void checkEcritureComptableUnit() throws Exception {
@@ -192,7 +193,6 @@ public class ComptabiliteManagerImplTest extends BusinessTestCase {
                     new BigDecimal(1234)));
             manager.checkEcritureComptableUnit(vEcritureComptable);
                 });
-
     }
 
     //RG_Compta_3	Une écriture comptable doit contenir au moins deux lignes d'écriture :
